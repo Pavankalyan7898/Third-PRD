@@ -1,0 +1,386 @@
+===================================================================
+                       CAMPUSTRACK PSEUDOCODE
+              Student Academic Management System
+===================================================================
+
+START
+
+    // Step 1: Initialize Scanner for reading runtime input
+    Create Scanner object 'scanner'
+
+    // Step 2: Display Application Header / Welcome Screen
+    PRINT "========================================================"
+    PRINT "                    CAMPUSTRACK"
+    PRINT "========================================================"
+    PRINT "       Student Academic Management System"
+    PRINT "--------------------------------------------------------"
+
+    DO
+        // ---------------------------------------------------------
+        // MODULE 1: STUDENT PROFILE COLLECTION & VALIDATION
+        // ---------------------------------------------------------
+        PROMPT "Enter student ID: "
+        READ studentId (String)
+
+        Consume pending newline character from input buffer
+
+        PROMPT "Enter full name: "
+        READ fullName (String complete line)
+
+        PROMPT "Enter age: "
+        READ age (int)
+        WHILE age < 15 OR age > 35 DO
+            PRINT "Invalid age. Enter a value between 15 and 35."
+            PROMPT "Enter age: "
+            READ age
+        END WHILE
+        PRINT "Age accepted."
+
+        PROMPT "Enter email: "
+        READ email (String)
+
+        // Course Selection Loop
+        DO
+            PRINT ""
+            PRINT "Select course:"
+            PRINT "1. BCA"
+            PRINT "2. B.Sc Computer Science"
+            PRINT "3. B.E/B.Tech"
+            PRINT "4. MCA"
+            PRINT "5. Other"
+            PRINT ""
+            PROMPT "Enter course choice: "
+            READ courseChoice (int)
+
+            IF courseChoice < 1 OR courseChoice > 5 THEN
+                PRINT "Invalid course choice. Select a value from 1 to 5."
+            END IF
+        WHILE courseChoice < 1 OR courseChoice > 5
+
+        // Map course choice to name and base semester fee
+        SWITCH courseChoice DO
+            CASE 1:
+                courseName = "BCA"
+                baseSemesterFee = 35000.00
+                BREAK
+            CASE 2:
+                courseName = "B.Sc Computer Science"
+                baseSemesterFee = 30000.00
+                BREAK
+            CASE 3:
+                courseName = "B.E/B.Tech"
+                baseSemesterFee = 50000.00
+                BREAK
+            CASE 4:
+                courseName = "MCA"
+                baseSemesterFee = 45000.00
+                BREAK
+            CASE 5:
+                courseName = "Other"
+                baseSemesterFee = 25000.00
+                BREAK
+        END SWITCH
+        PRINT "Course selected: " + courseName
+
+        PROMPT "Enter semester (1-8): "
+        READ semester (int)
+        WHILE semester < 1 OR semester > 8 DO
+            PRINT "Invalid semester. Enter a value between 1 and 8."
+            PROMPT "Enter semester (1-8): "
+            READ semester
+        END WHILE
+
+        Consume pending newline character from input buffer
+
+        PROMPT "Enter career goal: "
+        READ careerGoal (String complete line)
+
+
+        // ---------------------------------------------------------
+        // MODULE 2: SUBJECT MARKS COLLECTION & VALIDATION
+        // ---------------------------------------------------------
+        PROMPT "Enter Java marks: "
+        READ javaMarks (int)
+        WHILE javaMarks < 0 OR javaMarks > 100 DO
+            PRINT "Invalid marks. Enter a value between 0 and 100."
+            PROMPT "Enter Java marks: "
+            READ javaMarks
+        END WHILE
+
+        PROMPT "Enter SQL marks: "
+        READ sqlMarks (int)
+        WHILE sqlMarks < 0 OR sqlMarks > 100 DO
+            PRINT "Invalid marks. Enter a value between 0 and 100."
+            PROMPT "Enter SQL marks: "
+            READ sqlMarks
+        END WHILE
+
+        PROMPT "Enter Web Technology marks: "
+        READ webTechMarks (int)
+        WHILE webTechMarks < 0 OR webTechMarks > 100 DO
+            PRINT "Invalid marks. Enter a value between 0 and 100."
+            PROMPT "Enter Web Technology marks: "
+            READ webTechMarks
+        END WHILE
+
+        PROMPT "Enter Aptitude marks: "
+        READ aptitudeMarks (int)
+        WHILE aptitudeMarks < 0 OR aptitudeMarks > 100 DO
+            PRINT "Invalid marks. Enter a value between 0 and 100."
+            PROMPT "Enter Aptitude marks: "
+            READ aptitudeMarks
+        END WHILE
+
+        PROMPT "Enter Communication marks: "
+        READ commMarks (int)
+        WHILE commMarks < 0 OR commMarks > 100 DO
+            PRINT "Invalid marks. Enter a value between 0 and 100."
+            PROMPT "Enter Communication marks: "
+            READ commMarks
+        END WHILE
+
+
+        // ---------------------------------------------------------
+        // MODULE 3: TOTAL, PERCENTAGE, ACADEMIC RESULT & GRADE
+        // ---------------------------------------------------------
+        SET totalMarks = javaMarks + sqlMarks + webTechMarks + aptitudeMarks + commMarks
+        SET percentage = (double) totalMarks / 5.0
+
+        // Subject Pass Rule: Each subject mark >= 35 AND Percentage >= 40
+        IF javaMarks >= 35 AND sqlMarks >= 35 AND webTechMarks >= 35 AND aptitudeMarks >= 35 AND commMarks >= 35 AND percentage >= 40.0 THEN
+            academicResult = "PASSED"
+        ELSE
+            academicResult = "FAILED"
+        END IF
+
+        // Grade Classification
+        IF academicResult EQUALS "FAILED" THEN
+            grade = "F"
+        ELSE IF percentage >= 85.0 THEN
+            grade = "A+"
+        ELSE IF percentage >= 75.0 THEN
+            grade = "A"
+        ELSE IF percentage >= 65.0 THEN
+            grade = "B"
+        ELSE IF percentage >= 50.0 THEN
+            grade = "C"
+        ELSE
+            grade = "D"
+        END IF
+
+
+        // ---------------------------------------------------------
+        // MODULE 4: ATTENDANCE PROCESSING
+        // ---------------------------------------------------------
+        PROMPT "Enter total classes conducted: "
+        READ totalClasses (int)
+        WHILE totalClasses < 1 OR totalClasses > 300 DO
+            PRINT "Invalid value. Total classes must be between 1 and 300."
+            PROMPT "Enter total classes conducted: "
+            READ totalClasses
+        END WHILE
+
+        PROMPT "Enter classes attended: "
+        READ attendedClasses (int)
+        WHILE attendedClasses < 0 OR attendedClasses > totalClasses DO
+            PRINT "Invalid attendance. Attended classes cannot exceed " + totalClasses + "."
+            PROMPT "Enter classes attended: "
+            READ attendedClasses
+        END WHILE
+
+        SET attendancePercentage = ((double) attendedClasses / totalClasses) * 100.0
+        SET attendanceStatus = (attendancePercentage >= 75.0) ? "REGULAR" : "SHORTAGE"
+
+
+        // ---------------------------------------------------------
+        // MODULE 5: ASSIGNMENT PROCESSING
+        // ---------------------------------------------------------
+        PROMPT "How many assignment scores do you want to enter? "
+        READ numAssignments (int)
+        WHILE numAssignments < 1 OR numAssignments > 10 DO
+            PRINT "Invalid number of assignments. Enter a value between 1 and 10."
+            PROMPT "How many assignment scores do you want to enter? "
+            READ numAssignments
+        END WHILE
+
+        SET validAssignmentCount = 0
+        SET assignmentTotal = 0
+
+        FOR i FROM 1 TO numAssignments DO
+            PROMPT "Enter score for assignment " + i + " (0-10, -1 to finish): "
+            READ score (int)
+
+            IF score EQUALS -1 THEN
+                PRINT "Assignment entry completed early."
+                BREAK
+            END IF
+
+            IF score < -1 OR score > 10 THEN
+                PRINT "Invalid score. Assignment " + i + " skipped."
+                CONTINUE
+            END IF
+
+            SET assignmentTotal = assignmentTotal + score
+            SET validAssignmentCount = validAssignmentCount + 1
+        END FOR
+
+        IF validAssignmentCount > 0 THEN
+            SET assignmentAverage = (double) assignmentTotal / validAssignmentCount
+        ELSE
+            SET assignmentAverage = 0.00
+        END IF
+
+        SET assignmentPass = (validAssignmentCount > 0 AND assignmentAverage >= 5.0)
+        SET assignmentStatus = assignmentPass ? "SATISFACTORY" : "NEEDS IMPROVEMENT"
+
+
+        // ---------------------------------------------------------
+        // MODULE 6: SCHOLARSHIP & FEE CALCULATION
+        // ---------------------------------------------------------
+        IF academicResult EQUALS "PASSED" AND percentage >= 85.0 AND attendancePercentage >= 85.0 THEN
+            scholarshipPercent = 10
+        ELSE IF academicResult EQUALS "PASSED" AND percentage >= 75.0 AND attendancePercentage >= 75.0 THEN
+            scholarshipPercent = 5
+        ELSE
+            scholarshipPercent = 0
+        END IF
+
+        SET scholarshipAmount = baseSemesterFee * scholarshipPercent / 100.0
+        SET finalPayableFee = baseSemesterFee - scholarshipAmount
+
+        PRINT "Final payable fee: ₹" + FORMAT(finalPayableFee, 2 decimals)
+        PROMPT "Enter amount paid: "
+        READ amountPaid (double)
+        WHILE amountPaid < 0 OR amountPaid > finalPayableFee DO
+            PRINT "Invalid amount. Enter a value between 0 and " + FORMAT(finalPayableFee, 2 decimals) + "."
+            PROMPT "Enter amount paid: "
+            READ amountPaid
+        END WHILE
+
+        SET feeBalance = finalPayableFee - amountPaid
+        SET feeStatus = (feeBalance EQUALS 0) ? "PAID" : "PENDING"
+
+
+        // ---------------------------------------------------------
+        // MODULE 7: FINAL CLEARANCE STATUS
+        // ---------------------------------------------------------
+        SET isCleared = (academicResult EQUALS "PASSED") AND (attendancePercentage >= 75.0) AND assignmentPass AND (feeBalance EQUALS 0)
+        SET semesterClearance = isCleared ? "CLEARED FOR NEXT SEMESTER" : "ACTION REQUIRED"
+
+
+        // ---------------------------------------------------------
+        // MODULE 8: PRINT STUDENT SEMESTER REPORT
+        // ---------------------------------------------------------
+        PRINT ""
+        PRINT "========================================================"
+        PRINT "                 STUDENT SEMESTER REPORT"
+        PRINT "========================================================"
+        PRINT FORMAT("Student ID                 : %s", studentId)
+        PRINT FORMAT("Student Name               : %s", fullName)
+        PRINT FORMAT("Age                        : %d", age)
+        PRINT FORMAT("Email                      : %s", email)
+        PRINT FORMAT("Course                     : %s", courseName)
+        PRINT FORMAT("Semester                   : %d", semester)
+        PRINT FORMAT("Career Goal                : %s", careerGoal)
+        PRINT ""
+        PRINT "---------------- ACADEMIC SUMMARY --------------------"
+        PRINT FORMAT("Java Marks                 : %d", javaMarks)
+        PRINT FORMAT("SQL Marks                  : %d", sqlMarks)
+        PRINT FORMAT("Web Technology Marks       : %d", webTechMarks)
+        PRINT FORMAT("Aptitude Marks              : %d", aptitudeMarks)
+        PRINT FORMAT("Communication Marks        : %d", commMarks)
+        PRINT FORMAT("Total Marks                : %d/500", totalMarks)
+        PRINT FORMAT("Percentage                 : %.2f%%", percentage)
+        PRINT FORMAT("Academic Result            : %s", academicResult)
+        PRINT FORMAT("Grade                      : %s", grade)
+        PRINT ""
+        PRINT "---------------- ATTENDANCE SUMMARY ------------------"
+        PRINT FORMAT("Classes Conducted          : %d", totalClasses)
+        PRINT FORMAT("Classes Attended           : %d", attendedClasses)
+        PRINT FORMAT("Attendance Percentage      : %.2f%%", attendancePercentage)
+        PRINT FORMAT("Attendance Status          : %s", attendanceStatus)
+        PRINT ""
+        PRINT "---------------- ASSIGNMENT SUMMARY ------------------"
+        PRINT FORMAT("Valid Assignments          : %d", validAssignmentCount)
+        PRINT FORMAT("Assignment Total           : %d", assignmentTotal)
+        PRINT FORMAT("Assignment Average         : %.2f", assignmentAverage)
+        PRINT FORMAT("Assignment Status          : %s", assignmentStatus)
+        PRINT ""
+        PRINT "---------------- FEE SUMMARY -------------------------"
+        PRINT FORMAT("Base Semester Fee          : ₹%.2f", baseSemesterFee)
+        PRINT FORMAT("Scholarship Percentage     : %d%%", scholarshipPercent)
+        PRINT FORMAT("Scholarship Amount         : ₹%.2f", scholarshipAmount)
+        PRINT FORMAT("Final Payable Fee          : ₹%.2f", finalPayableFee)
+        PRINT FORMAT("Amount Paid                : ₹%.2f", amountPaid)
+        PRINT FORMAT("Fee Balance                : ₹%.2f", feeBalance)
+        PRINT FORMAT("Fee Status                 : %s", feeStatus)
+        PRINT ""
+        PRINT "---------------- FINAL STATUS ------------------------"
+        PRINT FORMAT("Semester Clearance         : %s", semesterClearance)
+        PRINT ""
+        PRINT "---------------- FAILED CONDITIONS -------------------"
+        IF NOT isCleared THEN
+            IF javaMarks < 35 THEN PRINT "- Java marks are below 35." END IF
+            IF sqlMarks < 35 THEN PRINT "- SQL marks are below 35." END IF
+            IF webTechMarks < 35 THEN PRINT "- Web Technology marks are below 35." END IF
+            IF aptitudeMarks < 35 THEN PRINT "- Aptitude marks are below 35." END IF
+            IF commMarks < 35 THEN PRINT "- Communication marks are below 35." END IF
+            IF javaMarks >= 35 AND sqlMarks >= 35 AND webTechMarks >= 35 AND aptitudeMarks >= 35 AND commMarks >= 35 AND percentage < 40.0 THEN
+                PRINT "- Overall percentage is below 40%."
+            END IF
+            IF attendancePercentage < 75.0 THEN PRINT "- Attendance is below 75%." END IF
+            IF validAssignmentCount EQUALS 0 THEN
+                PRINT "- No valid assignment score was entered."
+            ELSE IF assignmentAverage < 5.00 THEN
+                PRINT "- Assignment average is below 5.00."
+            END IF
+            IF feeBalance > 0 THEN PRINT "- Semester fee is pending." END IF
+        ELSE
+            PRINT "None"
+        END IF
+        PRINT ""
+        PRINT "---------------- RECOMMENDATIONS ---------------------"
+        IF NOT isCleared THEN
+            IF javaMarks < 35 OR sqlMarks < 35 OR webTechMarks < 35 OR aptitudeMarks < 35 OR commMarks < 35 THEN
+                PRINT "Revisit the failed subject and complete additional practice."
+            END IF
+            IF percentage < 40.0 THEN
+                PRINT "Improve overall academic performance."
+            END IF
+            IF attendancePercentage < 75.0 THEN
+                PRINT "Attend classes regularly and clear the attendance shortage."
+            END IF
+            IF NOT assignmentPass THEN
+                PRINT "Complete assignments consistently and maintain an average of at least 5.00."
+            END IF
+            IF feeBalance > 0 THEN
+                PRINT "Pay the pending semester fee before clearance."
+            END IF
+        ELSE
+            PRINT "Maintain the current performance in the next semester."
+        END IF
+        PRINT "========================================================"
+        PRINT ""
+
+
+        // ---------------------------------------------------------
+        // MODULE 9: PROCESS ANOTHER STUDENT PROMPT
+        // ---------------------------------------------------------
+        PRINT "Do you want to process another student?"
+        PRINT "1. Yes"
+        PRINT "0. No"
+        PROMPT "Enter choice: "
+        READ repeatChoice (int)
+        WHILE repeatChoice NOT EQUALS 0 AND repeatChoice NOT EQUALS 1 DO
+            PRINT "Invalid choice. Select 1 for Yes or 0 for No."
+            PROMPT "Enter choice: "
+            READ repeatChoice
+        END WHILE
+
+    WHILE repeatChoice EQUALS 1
+
+    PRINT "Thank you for using CampusTrack."
+    Close Scanner
+
+STOP
+===================================================================
